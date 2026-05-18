@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="alert_green">#1DBF73</color>
+    <color name="alert_green_dark">#0E8B57</color>
+    <color name="alert_surface">#182430</color>
+    <color name="alert_surface_alt">#101A24</color>
+    <color name="alert_text_primary">#F8FBFF</color>
+    <color name="alert_text_secondary">#B7C7D6</color>
+</resources>

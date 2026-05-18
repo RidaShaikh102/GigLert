@@ -1,0 +1,11 @@
+Rename GigLert completed.
+Targets updated:
+- pubspec.yaml
+- lib/app.dart
+- lib/utils/app_constants.dart
+- lib/widgets/app_logo.dart
+- android/app/src/main/AndroidManifest.xml
+- ios/Runner/Info.plist
+- web/manifest.json
+- web/index.html
+
