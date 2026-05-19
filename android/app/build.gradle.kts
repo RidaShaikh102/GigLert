@@ -23,7 +23,9 @@ if (hasReleaseKeystore) {
 android {
     namespace = "com.giglert.app"
     compileSdk = 36
-    ndkVersion = flutter.ndkVersion
+    // Pin a known-compatible NDK to avoid CMake/LLD linker flag issues
+    // Install matching NDK via SDK Manager: sdkmanager "ndk;25.2.9519653"
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
