@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "429377546777-660osiko7i0tuvn9g9mn0tt8dp49ah84.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.giglert.app",
+            "certificate_hash": "5e674fedd421513bab2c90e60efae58c25a9bae0"
+          }
+        },
+        {
           "client_id": "429377546777-7d5buaeikq5uki029cnqtetta2c3ml3e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
