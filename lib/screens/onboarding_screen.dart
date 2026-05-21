@@ -23,7 +23,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _OnboardingPageData(
       title: 'Never miss a Fiverr buyer again',
       body:
-          'Fiverr Alert turns urgent Fiverr notifications into impossible-to-miss alarms built for freelancers who cannot afford late replies.',
+          'GigLert turns urgent Fiverr notifications into impossible-to-miss alarms built for freelancers who cannot afford late replies.',
       eyebrow: 'Welcome',
       icon: Icons.rocket_launch_rounded,
       chipLabel: 'Startup-ready MVP',
@@ -39,7 +39,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _OnboardingPageData(
       title: 'Alert only during your selected work window',
       body:
-          'Choose the hours when you want to be reachable. Outside that schedule, Fiverr Alert keeps logging activity but stays quiet.',
+          'Choose the hours when you want to be reachable. Outside that schedule, GigLert keeps logging activity but stays quiet.',
       eyebrow: 'Smart scheduling',
       icon: Icons.schedule_rounded,
       chipLabel: 'Custom active hours',

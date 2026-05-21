@@ -62,7 +62,7 @@ class LocalNotificationService {
           ? 'Monitoring enabled'
           : 'Monitoring paused',
       body: settings.monitoringEnabled
-          ? 'Fiverr Alert will watch Fiverr during your active hours.'
+          ? 'GigLert will watch Fiverr during your active hours.'
           : 'Fiverr notification alarms are currently paused.',
       notificationDetails: NotificationDetails(
         android: AndroidNotificationDetails(
