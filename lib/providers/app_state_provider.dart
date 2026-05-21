@@ -112,6 +112,14 @@ class AppStateProvider extends ChangeNotifier {
     }
 
     await _firestoreService.upsertUserProfile(user, _settings);
+    try {
+      if (_alerts.isNotEmpty) {
+        await _firestoreService.syncLastAlert(user.uid, _alerts.first);
+      }
+    } catch (error) {
+      debugPrint('Failed to sync last alert to Firestore: $error');
+    }
+
     notifyListeners();
   }
 

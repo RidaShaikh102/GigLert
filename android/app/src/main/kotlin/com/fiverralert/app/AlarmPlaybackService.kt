@@ -40,7 +40,7 @@ class AlarmPlaybackService : Service() {
                 if (payload != null) {
                     AlarmSnoozeReceiver.schedule(this, payload, snoozeMinutes)
                 }
-                stopAlarm(clearPendingAlert = false)
+                stopAlarm(clearPendingAlert = false, cancelSnooze = false)
                 stopSelf()
                 START_NOT_STICKY
             }
@@ -193,7 +193,7 @@ class AlarmPlaybackService : Service() {
         )
     }
 
-    private fun stopAlarm(clearPendingAlert: Boolean) {
+    private fun stopAlarm(clearPendingAlert: Boolean, cancelSnooze: Boolean = true) {
         mediaPlayer?.stop()
         mediaPlayer?.release()
         mediaPlayer = null
@@ -209,7 +209,9 @@ class AlarmPlaybackService : Service() {
 
         stopForeground(STOP_FOREGROUND_REMOVE)
 
-        AlarmSnoozeReceiver.cancel(this)
+        if (cancelSnooze) {
+            AlarmSnoozeReceiver.cancel(this)
+        }
 
         if (clearPendingAlert) {
             AppPreferences.clearPendingAlert(this)
