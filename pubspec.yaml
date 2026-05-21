@@ -2,7 +2,7 @@ name: giglert
 description: "Premium Android notification alarm app for Fiverr freelancers."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.11.5

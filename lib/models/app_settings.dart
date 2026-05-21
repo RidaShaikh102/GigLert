@@ -39,6 +39,19 @@ class AppSettings {
     required this.snoozeMinutes,
     required this.themePreference,
     required this.foregroundServiceEnabled,
+    required this.notifyNewMessages,
+    required this.notifyNewOrders,
+    required this.notifyBuyerRequests,
+    required this.notifyCustomOffers,
+    required this.notifyRevisions,
+    required this.notifyCancellations,
+    required this.onlyImportantNotifications,
+    required this.keywordDetectionEnabled,
+    required this.repeatUrgentMessages,
+    required this.fullScreenAlarm,
+    required this.strongSleepAlerts,
+    required this.cloudSyncEnabled,
+    required this.keywords,
     required this.updatedAt,
   });
 
@@ -51,6 +64,19 @@ class AppSettings {
   final int snoozeMinutes;
   final AppThemePreference themePreference;
   final bool foregroundServiceEnabled;
+  final bool notifyNewMessages;
+  final bool notifyNewOrders;
+  final bool notifyBuyerRequests;
+  final bool notifyCustomOffers;
+  final bool notifyRevisions;
+  final bool notifyCancellations;
+  final bool onlyImportantNotifications;
+  final bool keywordDetectionEnabled;
+  final bool repeatUrgentMessages;
+  final bool fullScreenAlarm;
+  final bool strongSleepAlerts;
+  final bool cloudSyncEnabled;
+  final List<String> keywords;
   final DateTime updatedAt;
 
   factory AppSettings.defaults() {
@@ -64,6 +90,19 @@ class AppSettings {
       snoozeMinutes: 5,
       themePreference: AppThemePreference.system,
       foregroundServiceEnabled: true,
+      notifyNewMessages: true,
+      notifyNewOrders: true,
+      notifyBuyerRequests: false,
+      notifyCustomOffers: false,
+      notifyRevisions: true,
+      notifyCancellations: true,
+      onlyImportantNotifications: false,
+      keywordDetectionEnabled: false,
+      repeatUrgentMessages: false,
+      fullScreenAlarm: true,
+      strongSleepAlerts: false,
+      cloudSyncEnabled: false,
+      keywords: const <String>[],
       updatedAt: DateTime.now(),
     );
   }
@@ -87,6 +126,21 @@ class AppSettings {
       ),
       foregroundServiceEnabled:
           json['foregroundServiceEnabled'] as bool? ?? true,
+      notifyNewMessages: json['notifyNewMessages'] as bool? ?? true,
+      notifyNewOrders: json['notifyNewOrders'] as bool? ?? true,
+      notifyBuyerRequests: json['notifyBuyerRequests'] as bool? ?? false,
+      notifyCustomOffers: json['notifyCustomOffers'] as bool? ?? false,
+      notifyRevisions: json['notifyRevisions'] as bool? ?? true,
+      notifyCancellations: json['notifyCancellations'] as bool? ?? true,
+      onlyImportantNotifications:
+          json['onlyImportantNotifications'] as bool? ?? false,
+      keywordDetectionEnabled:
+          json['keywordDetectionEnabled'] as bool? ?? false,
+      repeatUrgentMessages: json['repeatUrgentMessages'] as bool? ?? false,
+      fullScreenAlarm: json['fullScreenAlarm'] as bool? ?? true,
+      strongSleepAlerts: json['strongSleepAlerts'] as bool? ?? false,
+      cloudSyncEnabled: json['cloudSyncEnabled'] as bool? ?? false,
+      keywords: ((json['keywords'] as List?) ?? <dynamic>[]) .cast<String>(),
       updatedAt: DateTime.fromMillisecondsSinceEpoch(
         json['updatedAt'] as int? ?? DateTime.now().millisecondsSinceEpoch,
       ),
@@ -104,6 +158,19 @@ class AppSettings {
       'snoozeMinutes': snoozeMinutes,
       'themePreference': themePreference.name,
       'foregroundServiceEnabled': foregroundServiceEnabled,
+      'notifyNewMessages': notifyNewMessages,
+      'notifyNewOrders': notifyNewOrders,
+      'notifyBuyerRequests': notifyBuyerRequests,
+      'notifyCustomOffers': notifyCustomOffers,
+      'notifyRevisions': notifyRevisions,
+      'notifyCancellations': notifyCancellations,
+      'onlyImportantNotifications': onlyImportantNotifications,
+      'keywordDetectionEnabled': keywordDetectionEnabled,
+      'repeatUrgentMessages': repeatUrgentMessages,
+      'fullScreenAlarm': fullScreenAlarm,
+      'strongSleepAlerts': strongSleepAlerts,
+      'cloudSyncEnabled': cloudSyncEnabled,
+      'keywords': keywords,
       'updatedAt': updatedAt.millisecondsSinceEpoch,
     };
   }
@@ -118,6 +185,19 @@ class AppSettings {
     int? snoozeMinutes,
     AppThemePreference? themePreference,
     bool? foregroundServiceEnabled,
+    bool? notifyNewMessages,
+    bool? notifyNewOrders,
+    bool? notifyBuyerRequests,
+    bool? notifyCustomOffers,
+    bool? notifyRevisions,
+    bool? notifyCancellations,
+    bool? onlyImportantNotifications,
+    bool? keywordDetectionEnabled,
+    bool? repeatUrgentMessages,
+    bool? fullScreenAlarm,
+    bool? strongSleepAlerts,
+    bool? cloudSyncEnabled,
+    List<String>? keywords,
     DateTime? updatedAt,
     bool touchUpdatedAt = false,
   }) {
@@ -132,6 +212,21 @@ class AppSettings {
       themePreference: themePreference ?? this.themePreference,
       foregroundServiceEnabled:
           foregroundServiceEnabled ?? this.foregroundServiceEnabled,
+      notifyNewMessages: notifyNewMessages ?? this.notifyNewMessages,
+      notifyNewOrders: notifyNewOrders ?? this.notifyNewOrders,
+      notifyBuyerRequests: notifyBuyerRequests ?? this.notifyBuyerRequests,
+      notifyCustomOffers: notifyCustomOffers ?? this.notifyCustomOffers,
+      notifyRevisions: notifyRevisions ?? this.notifyRevisions,
+      notifyCancellations: notifyCancellations ?? this.notifyCancellations,
+      onlyImportantNotifications:
+          onlyImportantNotifications ?? this.onlyImportantNotifications,
+      keywordDetectionEnabled:
+          keywordDetectionEnabled ?? this.keywordDetectionEnabled,
+      repeatUrgentMessages: repeatUrgentMessages ?? this.repeatUrgentMessages,
+      fullScreenAlarm: fullScreenAlarm ?? this.fullScreenAlarm,
+      strongSleepAlerts: strongSleepAlerts ?? this.strongSleepAlerts,
+      cloudSyncEnabled: cloudSyncEnabled ?? this.cloudSyncEnabled,
+      keywords: keywords ?? this.keywords,
       updatedAt: updatedAt ??
           (touchUpdatedAt ? DateTime.now() : this.updatedAt),
     );

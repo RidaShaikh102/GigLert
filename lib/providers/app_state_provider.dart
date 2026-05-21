@@ -93,7 +93,9 @@ class AppStateProvider extends ChangeNotifier {
       return;
     }
 
-    unawaited(_synchronizeUserState(user));
+    if (_settings.cloudSyncEnabled) {
+      unawaited(_synchronizeUserState(user));
+    }
   }
 
   Future<void> _synchronizeUserState(User user) async {
@@ -112,14 +114,6 @@ class AppStateProvider extends ChangeNotifier {
     }
 
     await _firestoreService.upsertUserProfile(user, _settings);
-    try {
-      if (_alerts.isNotEmpty) {
-        await _firestoreService.syncLastAlert(user.uid, _alerts.first);
-      }
-    } catch (error) {
-      debugPrint('Failed to sync last alert to Firestore: $error');
-    }
-
     notifyListeners();
   }
 
@@ -197,6 +191,114 @@ class AppStateProvider extends ChangeNotifier {
   Future<void> updateTheme(AppThemePreference preference) async {
     _settings = _settings.copyWith(
       themePreference: preference,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyNewMessages(bool enabled) async {
+    _settings = _settings.copyWith(
+      notifyNewMessages: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyNewOrders(bool enabled) async {
+    _settings = _settings.copyWith(
+      notifyNewOrders: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyBuyerRequests(bool enabled) async {
+    _settings = _settings.copyWith(
+      notifyBuyerRequests: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyCustomOffers(bool enabled) async {
+    _settings = _settings.copyWith(
+      notifyCustomOffers: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyRevisions(bool enabled) async {
+    _settings = _settings.copyWith(
+      notifyRevisions: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyCancellations(bool enabled) async {
+    _settings = _settings.copyWith(
+      notifyCancellations: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateOnlyImportantNotifications(bool enabled) async {
+    _settings = _settings.copyWith(
+      onlyImportantNotifications: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateKeywordDetection(bool enabled) async {
+    _settings = _settings.copyWith(
+      keywordDetectionEnabled: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateRepeatUrgentMessages(bool enabled) async {
+    _settings = _settings.copyWith(
+      repeatUrgentMessages: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateFullScreenAlarm(bool enabled) async {
+    _settings = _settings.copyWith(
+      fullScreenAlarm: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateStrongSleepAlerts(bool enabled) async {
+    _settings = _settings.copyWith(
+      strongSleepAlerts: enabled,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateCloudSync(bool enabled) async {
+    _settings = _settings.copyWith(
+      cloudSyncEnabled: enabled,
       touchUpdatedAt: true,
     );
     notifyListeners();
@@ -284,12 +386,6 @@ class AppStateProvider extends ChangeNotifier {
     ].take(AppConstants.maxStoredAlerts).toList();
 
     unawaited(_localStorageService.saveAlertHistory(_alerts));
-
-    final User? user = _boundUser;
-    if (user != null) {
-      unawaited(_firestoreService.syncLastAlert(user.uid, record));
-    }
-
     notifyListeners();
   }
 
@@ -310,7 +406,7 @@ class AppStateProvider extends ChangeNotifier {
     }
 
     final User? user = _boundUser;
-    if (user != null) {
+    if (user != null && _settings.cloudSyncEnabled) {
       try {
         await _firestoreService.upsertUserProfile(user, _settings);
       } catch (error) {

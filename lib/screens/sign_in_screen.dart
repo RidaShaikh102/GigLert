@@ -31,7 +31,7 @@ class SignInScreen extends StatelessWidget {
               ),
               const SizedBox(height: 14),
               Text(
-                'Log in with Google to sync your schedule, alarm preferences, and account settings across devices using Firebase free tier services.',
+                'Log in with Google to enable optional Cloud Sync for schedules, alarm preferences, and settings across devices. Fiverr notifications stay on your device by default.',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(height: 24),

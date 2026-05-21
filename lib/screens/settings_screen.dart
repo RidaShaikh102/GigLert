@@ -26,6 +26,44 @@ class SettingsScreen extends StatelessWidget {
             AuthProvider authProvider,
             Widget? child,
           ) {
+            Widget buildSmartToggle({
+              required String title,
+              String? subtitle,
+              required bool value,
+              required ValueChanged<bool> onChanged,
+            }) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            title,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          if (subtitle != null) ...<Widget>[
+                            const SizedBox(height: 4),
+                            Text(
+                              subtitle,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                    Switch.adaptive(
+                      value: value,
+                      onChanged: onChanged,
+                    ),
+                  ],
+                ),
+              );
+            }
+
             return ListView(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(20, 18, 20, 120),
@@ -61,6 +99,115 @@ class SettingsScreen extends StatelessWidget {
                             context,
                           ).push(buildFadeRoute<void>(const ScheduleScreen()));
                         },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                GlassCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Smart Detection',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Pick the Fiverr alerts that matter most, with privacy-first local storage and optional cloud preference sync.',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(height: 18),
+                      Text(
+                        'Trigger alerts for',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 12),
+                      buildSmartToggle(
+                        title: 'New Messages',
+                        subtitle: 'Catch new Fiverr replies even when your phone is away.',
+                        value: appState.settings.notifyNewMessages,
+                        onChanged: appState.updateNotifyNewMessages,
+                      ),
+                      buildSmartToggle(
+                        title: 'New Orders',
+                        subtitle: 'Alert on fresh Fiverr orders immediately.',
+                        value: appState.settings.notifyNewOrders,
+                        onChanged: appState.updateNotifyNewOrders,
+                      ),
+                      buildSmartToggle(
+                        title: 'Buyer Requests',
+                        subtitle: 'Stay on top of buyer requests for faster turnaround.',
+                        value: appState.settings.notifyBuyerRequests,
+                        onChanged: appState.updateNotifyBuyerRequests,
+                      ),
+                      buildSmartToggle(
+                        title: 'Custom Offers',
+                        subtitle: 'Know when buyers send custom opportunities.',
+                        value: appState.settings.notifyCustomOffers,
+                        onChanged: appState.updateNotifyCustomOffers,
+                      ),
+                      buildSmartToggle(
+                        title: 'Revisions',
+                        subtitle: 'Get notified when a buyer asks for a revision.',
+                        value: appState.settings.notifyRevisions,
+                        onChanged: appState.updateNotifyRevisions,
+                      ),
+                      buildSmartToggle(
+                        title: 'Cancellations',
+                        subtitle: 'Receive alerts on cancellations so you can respond fast.',
+                        value: appState.settings.notifyCancellations,
+                        onChanged: appState.updateNotifyCancellations,
+                      ),
+                      const Divider(height: 1),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Additional filters',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 12),
+                      buildSmartToggle(
+                        title: 'Only Important Notifications',
+                        subtitle: 'Keep the noise down and stay focused on urgent Fiverr alerts.',
+                        value: appState.settings.onlyImportantNotifications,
+                        onChanged: appState.updateOnlyImportantNotifications,
+                      ),
+                      buildSmartToggle(
+                        title: 'Keyword-Based Detection',
+                        subtitle: 'Scan Fiverr notifications for keywords you care about.',
+                        value: appState.settings.keywordDetectionEnabled,
+                        onChanged: appState.updateKeywordDetection,
+                      ),
+                      buildSmartToggle(
+                        title: 'Repeat Alerts for Urgent Messages',
+                        subtitle: 'Reinforce high-priority Fiverr messages until you acknowledge them.',
+                        value: appState.settings.repeatUrgentMessages,
+                        onChanged: appState.updateRepeatUrgentMessages,
+                      ),
+                      buildSmartToggle(
+                        title: 'Full-Screen Alarm',
+                        subtitle: 'Show a strong alert that cuts through sleep and busy moments.',
+                        value: appState.settings.fullScreenAlarm,
+                        onChanged: appState.updateFullScreenAlarm,
+                      ),
+                      buildSmartToggle(
+                        title: 'Strong Alerts During Sleep Hours',
+                        subtitle: 'Boost reliability while you are away from the phone at night.',
+                        value: appState.settings.strongSleepAlerts,
+                        onChanged: appState.updateStrongSleepAlerts,
+                      ),
+                      const Divider(height: 1),
+                      const SizedBox(height: 16),
+                      buildSmartToggle(
+                        title: 'Cloud Sync',
+                        subtitle: 'Optional backup and setting sync across devices. Disabled by default.',
+                        value: appState.settings.cloudSyncEnabled,
+                        onChanged: appState.updateCloudSync,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Your Fiverr notifications stay on your device by default.',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
