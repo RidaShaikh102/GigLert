@@ -69,21 +69,29 @@ class AuthProvider extends ChangeNotifier {
       await _authService.signInWithGoogle();
     } on FirebaseAuthException catch (error) {
       // Helps distinguish Firebase rejection vs Google UI cancellation.
-      debugPrint(
-        '[AuthProvider] FirebaseAuthException in signInWithGoogle: code=${error.code}, message=${error.message}, details=${error.toString()}',
-      );
+      if (kDebugMode) {
+        debugPrint(
+          '[AuthProvider] FirebaseAuthException in signInWithGoogle: code=${error.code}, message=${error.message}, details=${error.toString()}',
+        );
+      }
       _errorMessage = _mapFirebaseError(error);
     } on GoogleSignInException catch (error) {
       // Helps distinguish user cancel vs configuration problems.
-      debugPrint(
-        '[AuthProvider] GoogleSignInException in signInWithGoogle: code=${error.code}, description=${error.description}, details=${error.toString()}',
-      );
+      if (kDebugMode) {
+        debugPrint(
+          '[AuthProvider] GoogleSignInException in signInWithGoogle: code=${error.code}, description=${error.description}, details=${error.toString()}',
+        );
+      }
       _errorMessage = _mapGoogleSignInError(error);
     } on StateError catch (error) {
-      debugPrint('[AuthProvider] StateError in signInWithGoogle: $error');
+      if (kDebugMode) {
+        debugPrint('[AuthProvider] StateError in signInWithGoogle: $error');
+      }
       _errorMessage = error.message.toString();
     } catch (error) {
-      debugPrint('[AuthProvider] Unexpected error in signInWithGoogle: $error');
+      if (kDebugMode) {
+        debugPrint('[AuthProvider] Unexpected error in signInWithGoogle: $error');
+      }
       _errorMessage = _mapError(error);
     } finally {
       _isSigningIn = false;

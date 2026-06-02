@@ -11,7 +11,9 @@ import '../widgets/glass_card.dart';
 import '../widgets/gradient_button.dart';
 import '../widgets/setting_tile.dart';
 import 'permissions_screen.dart';
+import 'privacy_policy_screen.dart';
 import 'schedule_screen.dart';
+import 'terms_conditions_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -438,6 +440,41 @@ class SettingsScreen extends StatelessWidget {
                         title: 'Replay onboarding',
                         subtitle: 'Open the setup walkthrough again.',
                         onTap: appState.resetOnboarding,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                GlassCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Legal',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 12),
+                      SettingTile(
+                        icon: Icons.privacy_tip_rounded,
+                        title: 'Privacy Policy',
+                        subtitle:
+                            'See how notification access, local storage, and optional sync are handled.',
+                        onTap: () {
+                          Navigator.of(context).push(
+                            buildFadeRoute<void>(const PrivacyPolicyScreen()),
+                          );
+                        },
+                      ),
+                      SettingTile(
+                        icon: Icons.description_rounded,
+                        title: 'Terms & Conditions',
+                        subtitle:
+                            'Read the app terms, disclaimers, and permission scope.',
+                        onTap: () {
+                          Navigator.of(context).push(
+                            buildFadeRoute<void>(const TermsConditionsScreen()),
+                          );
+                        },
                       ),
                     ],
                   ),

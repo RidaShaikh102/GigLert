@@ -31,7 +31,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _OnboardingPageData(
       title: 'Detection works through Android notification access',
       body:
-          'The app listens only for the official Fiverr package and extracts message, order, and reply details without reacting to unrelated apps.',
+          'The app listens only for the official Fiverr package and extracts message, order, and reply details without reacting to unrelated apps. All detected Fiverr notification metadata is kept on your phone and is not shared externally, for privacy and security.',
       eyebrow: 'How it works',
       icon: Icons.notifications_active_rounded,
       chipLabel: 'com.fiverr.fiverr',
