@@ -277,6 +277,114 @@ class AppStateProvider extends ChangeNotifier {
     await _localNotificationService.showSetupReminder();
   }
 
+  Future<void> updateNotifyNewMessages(bool value) async {
+    _settings = _settings.copyWith(
+      notifyNewMessages: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyNewOrders(bool value) async {
+    _settings = _settings.copyWith(
+      notifyNewOrders: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyBuyerRequests(bool value) async {
+    _settings = _settings.copyWith(
+      notifyBuyerRequests: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyCustomOffers(bool value) async {
+    _settings = _settings.copyWith(
+      notifyCustomOffers: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyRevisions(bool value) async {
+    _settings = _settings.copyWith(
+      notifyRevisions: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateNotifyCancellations(bool value) async {
+    _settings = _settings.copyWith(
+      notifyCancellations: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateOnlyImportantNotifications(bool value) async {
+    _settings = _settings.copyWith(
+      onlyImportantNotifications: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateKeywordDetection(bool value) async {
+    _settings = _settings.copyWith(
+      keywordDetectionEnabled: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateRepeatUrgentMessages(bool value) async {
+    _settings = _settings.copyWith(
+      repeatUrgentMessages: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateFullScreenAlarm(bool value) async {
+    _settings = _settings.copyWith(
+      fullScreenAlarm: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateStrongSleepAlerts(bool value) async {
+    _settings = _settings.copyWith(
+      strongSleepAlerts: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
+  Future<void> updateCloudSync(bool value) async {
+    _settings = _settings.copyWith(
+      cloudSyncEnabled: value,
+      touchUpdatedAt: true,
+    );
+    notifyListeners();
+    await _persistAndSync();
+  }
+
   void _handleNotificationEvent(NotificationRecord record) {
     _alerts = <NotificationRecord>[
       record,

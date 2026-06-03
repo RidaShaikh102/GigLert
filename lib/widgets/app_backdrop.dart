@@ -14,38 +14,41 @@ class AppBackdrop extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: AppTheme.shellGradient(isDark),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: -80,
-            right: -40,
-            child: _Orb(
-              size: 220,
-              color: AppColors.emerald.withValues(alpha: isDark ? 0.18 : 0.22),
+    return Material(
+      type: MaterialType.transparency,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: AppTheme.shellGradient(isDark),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top: -80,
+              right: -40,
+              child: _Orb(
+                size: 220,
+                color: AppColors.emerald.withValues(alpha: isDark ? 0.18 : 0.22),
+              ),
             ),
-          ),
-          Positioned(
-            left: -70,
-            bottom: 100,
-            child: _Orb(
-              size: 180,
-              color: AppColors.warning.withValues(alpha: isDark ? 0.12 : 0.16),
+            Positioned(
+              left: -70,
+              bottom: 100,
+              child: _Orb(
+                size: 180,
+                color: AppColors.warning.withValues(alpha: isDark ? 0.12 : 0.16),
+              ),
             ),
-          ),
-          Positioned(
-            top: 210,
-            left: 24,
-            child: _Orb(
-              size: 120,
-              color: Colors.white.withValues(alpha: isDark ? 0.05 : 0.20),
+            Positioned(
+              top: 210,
+              left: 24,
+              child: _Orb(
+                size: 120,
+                color: Colors.white.withValues(alpha: isDark ? 0.05 : 0.20),
+              ),
             ),
-          ),
-          SafeArea(child: child),
-        ],
+            SafeArea(child: child),
+          ],
+        ),
       ),
     );
   }

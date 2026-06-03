@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
+import '../screens/home_shell.dart';
 import '../widgets/app_backdrop.dart';
 import '../widgets/app_logo.dart';
 import '../widgets/glass_card.dart';
 import '../widgets/gradient_button.dart';
+import 'email_sign_in_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
@@ -111,8 +113,47 @@ class SignInScreen extends StatelessWidget {
                 onPressed: authProvider.firebaseConfigured &&
                         authProvider.googleSignInSupported &&
                         !authProvider.isSigningIn
-                    ? () => authProvider.signInWithGoogle()
+                    ? () async {
+                        await authProvider.signInWithGoogle();
+
+                        if (authProvider.isSignedIn &&
+                            authProvider.errorMessage == null) {
+                          if (context.mounted) {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const HomeShell(),
+                              ),
+                            );
+                          }
+                        }
+                      }
                     : null,
+              ),
+              const SizedBox(height: 14),
+              OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) =>
+                          const EmailSignInScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.email_outlined),
+                label: const Text('Sign in or login by email'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 14,
+                  ),
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
               ),
             ],
           ),

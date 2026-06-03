@@ -1,6 +1,31 @@
 # GigLert
 
+## Play Store listing text (copy/paste)
+
+**Short description:**
+GigLert sends loud, persistent alerts for important Fiverr notification events on Android.
+
+**Full description:**
+GigLert is an Android app for Fiverr freelancers that monitors notification events and helps you stay on top of important Fiverr activity.
+
+With GigLert, you can enable reliable alerting (including repeat and full-screen alarm options) so you never miss messages, orders, revisions, cancellations, or other relevant Fiverr updates.
+
+**Not affiliated with Fiverr**
+GigLert is an independent app and is not affiliated with, sponsored by, or endorsed by Fiverr.
+
+**About permissions**
+GigLert requests Android notification access so it can detect notification events related to Fiverr activity and trigger alerts according to your settings. You control notification access in your Android app settings.
+
+**Data & syncing**
+GigLert stores your monitoring and alert preferences locally on your device. If you enable cloud sync, your settings and the latest detected alert can be stored in your Firebase account (Firestore).
+
+**No guarantee**
+Notification behavior can vary by device and Android version. While GigLert is designed to improve alert reliability, we cannot guarantee that every notification will be detected.
+
+---
+
 GigLert is a Flutter app for Android freelancers who want loud, persistent alerts when Fiverr notifications arrive. The app uses:
+
 
 - Firebase Authentication with Google sign-in
 - Cloud Firestore for syncing per-user settings and the latest detected alert

@@ -90,7 +90,69 @@ class AuthProvider extends ChangeNotifier {
       _errorMessage = error.message.toString();
     } catch (error) {
       if (kDebugMode) {
-        debugPrint('[AuthProvider] Unexpected error in signInWithGoogle: $error');
+        debugPrint(
+          '[AuthProvider] Unexpected error in signInWithGoogle: $error',
+        );
+      }
+      _errorMessage = _mapError(error);
+    } finally {
+      _isSigningIn = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    _isSigningIn = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _authService.signInWithEmail(email: email, password: password);
+    } on FirebaseAuthException catch (error) {
+      if (kDebugMode) {
+        debugPrint(
+          '[AuthProvider] FirebaseAuthException in signInWithEmail: code=${error.code}, message=${error.message}',
+        );
+      }
+      _errorMessage = _mapFirebaseError(error);
+    } catch (error) {
+      if (kDebugMode) {
+        debugPrint(
+          '[AuthProvider] Unexpected error in signInWithEmail: $error',
+        );
+      }
+      _errorMessage = _mapError(error);
+    } finally {
+      _isSigningIn = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> registerWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    _isSigningIn = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _authService.registerWithEmail(email: email, password: password);
+    } on FirebaseAuthException catch (error) {
+      if (kDebugMode) {
+        debugPrint(
+          '[AuthProvider] FirebaseAuthException in registerWithEmail: code=${error.code}, message=${error.message}',
+        );
+      }
+      _errorMessage = _mapFirebaseError(error);
+    } catch (error) {
+      if (kDebugMode) {
+        debugPrint(
+          '[AuthProvider] Unexpected error in registerWithEmail: $error',
+        );
       }
       _errorMessage = _mapError(error);
     } finally {
@@ -118,8 +180,20 @@ class AuthProvider extends ChangeNotifier {
         return 'Too many sign-in attempts. Please wait a moment and retry.';
       case 'operation-not-allowed':
         return 'Google Sign-In is not enabled in your Firebase project yet.';
+      case 'user-not-found':
+        return 'No account found with this email address.';
+      case 'wrong-password':
+        return 'Incorrect password. Please try again.';
+      case 'invalid-email':
+        return 'The email address is invalid.';
+      case 'user-disabled':
+        return 'This account has been disabled.';
+      case 'email-already-in-use':
+        return 'An account already exists with this email address.';
+      case 'weak-password':
+        return 'Password is too weak. Please use a stronger password.';
       default:
-        return error.message ?? 'Unable to complete Google sign-in.';
+        return error.message ?? 'An error occurred. Please try again.';
     }
   }
 

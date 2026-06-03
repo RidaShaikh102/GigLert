@@ -13,10 +13,7 @@ class TermsConditionsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          Text(title, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
           ...paragraphs.map(
             (String paragraph) => Padding(
@@ -35,9 +32,7 @@ class TermsConditionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Terms & Conditions'),
-      ),
+      appBar: AppBar(title: const Text('Terms & Conditions')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -59,10 +54,11 @@ class TermsConditionsScreen extends StatelessWidget {
               context,
               title: 'Permissions and access',
               paragraphs: <String>[
-                'The app needs notification listener access to detect incoming Fiverr alerts and decide when to trigger a notification alarm. This access is used only to read notification title, body, package name, and delivery time so the app can classify and alert on relevant Fiverr activity.',
-                'The app may also request notification posting, exact alarm, full-screen intent, and battery optimization exemption permissions to keep the alert experience reliable on Android devices. These permissions are required for the core monitoring experience.',
+                'Giglert requests notification access so it can monitor notification events and trigger alerts for relevant Fiverr activity based on your settings. You control this access in your Android app settings.',
+                'Giglert may also request notification posting, exact alarm, full-screen intent, and battery optimization exemption permissions to keep alerting reliable on Android devices. These permissions are part of the core monitoring experience.',
               ],
             ),
+
             buildSection(
               context,
               title: 'Local data storage',
