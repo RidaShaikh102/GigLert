@@ -7,14 +7,6 @@ import android.service.notification.StatusBarNotification
 import java.util.Locale
 
 class FiverrNotificationListenerService : NotificationListenerService() {
-    override fun onListenerConnected() {
-        super.onListenerConnected()
-        val config = AppPreferences.readConfig(this)
-        if (config.monitoringEnabled && config.foregroundServiceEnabled) {
-            MonitoringForegroundService.start(this)
-        }
-    }
-
     override fun onListenerDisconnected() {
         super.onListenerDisconnected()
         requestRebind(ComponentName(this, FiverrNotificationListenerService::class.java))

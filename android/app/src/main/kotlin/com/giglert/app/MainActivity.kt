@@ -48,12 +48,6 @@ class MainActivity : FlutterActivity() {
                 AppPreferences.saveConfig(this, config)
                 NotificationChannels.ensure(this)
 
-                if (config.monitoringEnabled && config.foregroundServiceEnabled) {
-                    MonitoringForegroundService.start(this)
-                } else {
-                    MonitoringForegroundService.stop(this)
-                }
-
                 result.success(null)
             }
 
