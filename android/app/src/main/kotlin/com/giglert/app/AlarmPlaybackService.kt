@@ -13,6 +13,7 @@ import android.os.PowerManager
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 
@@ -51,22 +52,40 @@ class AlarmPlaybackService : Service() {
                     stopSelf()
                     START_NOT_STICKY
                 } else {
-                    startAlarm(payload)
-                    START_STICKY
+                    if (startAlarm(payload)) {
+                        START_STICKY
+                    } else {
+                        START_NOT_STICKY
+                    }
                 }
             }
         }
     }
 
-    private fun startAlarm(payload: AlertPayload) {
+    private fun startAlarm(payload: AlertPayload): Boolean {
         val config = AppPreferences.readConfig(this)
         activePayload = payload
         AppPreferences.savePendingAlert(this, payload)
-        startForeground(ALARM_NOTIFICATION_ID, buildNotification(payload))
+        try {
+            startForeground(ALARM_NOTIFICATION_ID, buildNotification(payload))
+        } catch (error: RuntimeException) {
+            Log.w(TAG, "Unable to start alarm foreground service.", error)
+            stopSelf()
+            return false
+        }
         acquireWakeLock()
-        playAudio(config)
+        try {
+            playAudio(config)
+        } catch (error: Exception) {
+            Log.w(TAG, "Unable to play alarm audio.", error)
+        }
         startVibration(config)
-        launchAlertActivity(payload)
+        try {
+            launchAlertActivity(payload)
+        } catch (error: RuntimeException) {
+            Log.w(TAG, "Unable to launch alert activity.", error)
+        }
+        return true
     }
 
     private fun buildNotification(payload: AlertPayload): android.app.Notification {
@@ -229,14 +248,22 @@ class AlarmPlaybackService : Service() {
         private const val ACTION_SNOOZE = "com.giglert.app.action.SNOOZE_ALERT"
         private const val ALARM_NOTIFICATION_ID = 4402
 
-        fun start(context: Context, payload: AlertPayload) {
-            ContextCompat.startForegroundService(
-                context,
-                Intent(context, AlarmPlaybackService::class.java).apply {
-                    action = ACTION_START
-                    putExtras(payload.toBundle())
-                },
-            )
+        private const val TAG = "AlarmPlaybackService"
+
+        fun start(context: Context, payload: AlertPayload): Boolean {
+            return try {
+                ContextCompat.startForegroundService(
+                    context,
+                    Intent(context, AlarmPlaybackService::class.java).apply {
+                        action = ACTION_START
+                        putExtras(payload.toBundle())
+                    },
+                )
+                true
+            } catch (error: RuntimeException) {
+                Log.w(TAG, "Unable to request alarm foreground service start.", error)
+                false
+            }
         }
 
         fun stop(context: Context) {

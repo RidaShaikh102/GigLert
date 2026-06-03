@@ -5,6 +5,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 
@@ -21,8 +22,14 @@ class MonitoringForegroundService : Service() {
             return START_NOT_STICKY
         }
 
-        startForeground(MONITORING_NOTIFICATION_ID, buildNotification(config))
-        return START_STICKY
+        return try {
+            startForeground(MONITORING_NOTIFICATION_ID, buildNotification(config))
+            START_STICKY
+        } catch (error: RuntimeException) {
+            Log.w(TAG, "Unable to start monitoring foreground service.", error)
+            stopSelf()
+            START_NOT_STICKY
+        }
     }
 
     private fun buildNotification(config: MonitoringConfig): android.app.Notification {
@@ -47,13 +54,20 @@ class MonitoringForegroundService : Service() {
     }
 
     companion object {
+        private const val TAG = "MonitoringService"
         private const val MONITORING_NOTIFICATION_ID = 4401
 
-        fun start(context: Context) {
-            ContextCompat.startForegroundService(
-                context,
-                Intent(context, MonitoringForegroundService::class.java),
-            )
+        fun start(context: Context): Boolean {
+            return try {
+                ContextCompat.startForegroundService(
+                    context,
+                    Intent(context, MonitoringForegroundService::class.java),
+                )
+                true
+            } catch (error: RuntimeException) {
+                Log.w(TAG, "Unable to request monitoring foreground service start.", error)
+                false
+            }
         }
 
         fun stop(context: Context) {

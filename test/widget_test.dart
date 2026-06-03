@@ -128,6 +128,42 @@ class FakeAppStateProvider extends ChangeNotifier implements AppStateProvider {
 
   @override
   Future<void> showSetupReminder() async {}
+
+  @override
+  Future<void> updateNotifyNewMessages(bool value) async {}
+
+  @override
+  Future<void> updateNotifyNewOrders(bool value) async {}
+
+  @override
+  Future<void> updateNotifyBuyerRequests(bool value) async {}
+
+  @override
+  Future<void> updateNotifyCustomOffers(bool value) async {}
+
+  @override
+  Future<void> updateNotifyRevisions(bool value) async {}
+
+  @override
+  Future<void> updateNotifyCancellations(bool value) async {}
+
+  @override
+  Future<void> updateOnlyImportantNotifications(bool value) async {}
+
+  @override
+  Future<void> updateKeywordDetection(bool value) async {}
+
+  @override
+  Future<void> updateRepeatUrgentMessages(bool value) async {}
+
+  @override
+  Future<void> updateFullScreenAlarm(bool value) async {}
+
+  @override
+  Future<void> updateStrongSleepAlerts(bool value) async {}
+
+  @override
+  Future<void> updateCloudSync(bool value) async {}
 }
 
 class FakeAuthProvider extends ChangeNotifier implements AuthProvider {
@@ -175,6 +211,18 @@ class FakeAuthProvider extends ChangeNotifier implements AuthProvider {
 
   @override
   Future<void> signInWithGoogle() async {}
+
+  @override
+  Future<void> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {}
+
+  @override
+  Future<void> registerWithEmail({
+    required String email,
+    required String password,
+  }) async {}
 
   @override
   Future<void> signOut() async {}
@@ -338,9 +386,7 @@ void main() {
           settings: AppSettings.defaults(),
           hasCompletedOnboarding: true,
         ),
-        child: const MaterialApp(
-          home: Scaffold(body: DashboardScreen()),
-        ),
+        child: const MaterialApp(home: Scaffold(body: DashboardScreen())),
       ),
     );
 
@@ -358,9 +404,7 @@ void main() {
           settings: AppSettings.defaults().copyWith(monitoringEnabled: false),
           hasCompletedOnboarding: true,
         ),
-        child: const MaterialApp(
-          home: Scaffold(body: DashboardScreen()),
-        ),
+        child: const MaterialApp(home: Scaffold(body: DashboardScreen())),
       ),
     );
 
