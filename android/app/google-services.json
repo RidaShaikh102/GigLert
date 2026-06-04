@@ -47,47 +47,11 @@
           }
         },
         {
-          "client_id": "429377546777-1k79lrjn1dggh7bfnt0tm9l5nar5cgu2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCD0JpQl9bcb0HYtNlLmTWKd68exEm1eyM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "429377546777-1k79lrjn1dggh7bfnt0tm9l5nar5cgu2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "429377546777-epu3loht48cp7j9u4cabucki4la6h0be.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.giglert"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:429377546777:android:2e95ad93d13c14b287d888",
-        "android_client_info": {
-          "package_name": "com.giglert.rah"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "429377546777-17lo785ht4djbonheras2isa0ldon7cc.apps.googleusercontent.com",
+          "client_id": "429377546777-u79avq6i0p8opg5sfop74nj163pv3bnk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.giglert.rah",
-            "certificate_hash": "2c39fe30ccb14c6c523c27825fd34ca5644f01fb"
+            "package_name": "com.giglert.app",
+            "certificate_hash": "41620c4342dd6680e056c284be97988755e45454"
           }
         },
         {
