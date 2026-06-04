@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
@@ -58,7 +59,8 @@ android:label="@string/app_name"
             android:name=".MonitoringForegroundService"
             android:enabled="true"
             android:exported="false"
-            android:stopWithTask="false" />
+            android:stopWithTask="false"
+            android:foregroundServiceType="specialUse" />
         <service
             android:name=".AlarmPlaybackService"
             android:enabled="true"

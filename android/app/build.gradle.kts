@@ -71,7 +71,9 @@ flutter {
 }
 
 dependencies {
+    // Required by Firebase/Google libs when running on Android 13+ with Java 8+ time APIs
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.window:window:1.0.0")
     implementation("androidx.window:window-java:1.0.0")
