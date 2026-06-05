@@ -96,7 +96,13 @@ class AlarmPlaybackService : Service() {
         val config = AppPreferences.readConfig(this)
         activePayload = payload
         AppPreferences.savePendingAlert(this, payload)
-        startForeground(ALARM_NOTIFICATION_ID, buildNotification(payload))
+        startForeground(
+            ALARM_NOTIFICATION_ID,
+            buildNotification(payload),
+            android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK,
+        )
+
+
         acquireWakeLock()
         playAudio(config)
         startVibration(config)
