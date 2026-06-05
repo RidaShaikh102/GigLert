@@ -18,6 +18,7 @@ import 'services/local_notification_service.dart';
 import 'services/local_storage_service.dart';
 import 'services/native_bridge_service.dart';
 import 'services/permission_service.dart';
+import 'services/analytics_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,12 @@ Future<void> main() async {
     } catch (_) {
       firebaseApp = null;
     }
+  }
+
+  // Analytics doesn't require an extra initialize call beyond `firebase_core`,
+  // but the SDK should be available at runtime (added via pubspec).
+  if (firebaseApp != null) {
+    await AnalyticsService.instance.logAppOpen();
   }
 
   final LocalStorageService localStorageService = LocalStorageService();
