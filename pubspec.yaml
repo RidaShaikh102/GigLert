@@ -2,7 +2,7 @@ name: giglert
 description: "Premium Android notification alarm app for Fiverr freelancers."
 publish_to: 'none'
 
-version: 1.0.1+14
+version: 1.0.2+15
 
 environment:
   sdk: ^3.11.5
@@ -16,7 +16,7 @@ dependencies:
   cloud_firestore: ^6.4.1
   google_sign_in: ^7.2.0
   provider: ^6.1.5+1
-  flutter_local_notifications: ^18.0.0
+  flutter_local_notifications: ^19.5.0
   permission_handler: ^12.0.1
   shared_preferences: ^2.5.5
   audioplayers: ^6.6.0

@@ -1,5 +1,6 @@
 package com.giglert.app
 
+import android.app.ForegroundServiceStartNotAllowedException
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
@@ -12,8 +13,11 @@ import android.os.IBinder
 import android.os.PowerManager
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.content.pm.ServiceInfo
 import android.os.VibratorManager
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 
 /**
@@ -96,17 +100,37 @@ class AlarmPlaybackService : Service() {
         val config = AppPreferences.readConfig(this)
         activePayload = payload
         AppPreferences.savePendingAlert(this, payload)
-        startForeground(
-            ALARM_NOTIFICATION_ID,
-            buildNotification(payload),
-            android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK,
-        )
-
+        if (!promoteToForeground(payload)) {
+            stopSelf()
+            return
+        }
 
         acquireWakeLock()
         playAudio(config)
         startVibration(config)
         launchAlertActivity(payload)
+    }
+
+    private fun promoteToForeground(payload: AlertPayload): Boolean {
+        return try {
+            ServiceCompat.startForeground(
+                this,
+                ALARM_NOTIFICATION_ID,
+                buildNotification(payload),
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK,
+            )
+            true
+        } catch (error: SecurityException) {
+            Log.e(
+                TAG,
+                "Missing FOREGROUND_SERVICE_MEDIA_PLAYBACK permission in installed APK",
+                error,
+            )
+            false
+        } catch (error: Exception) {
+            Log.e(TAG, "Failed to start alarm foreground service", error)
+            false
+        }
     }
 
     private fun buildNotification(payload: AlertPayload): android.app.Notification {
@@ -264,19 +288,28 @@ class AlarmPlaybackService : Service() {
     }
 
     companion object {
+        private const val TAG = "AlarmPlaybackService"
         private const val ACTION_START = "com.giglert.app.action.START_ALERT"
         private const val ACTION_STOP = "com.giglert.app.action.STOP_ALERT"
         private const val ACTION_SNOOZE = "com.giglert.app.action.SNOOZE_ALERT"
         private const val ALARM_NOTIFICATION_ID = 4402
 
         fun start(context: Context, payload: AlertPayload) {
-            ContextCompat.startForegroundService(
-                context,
-                Intent(context, AlarmPlaybackService::class.java).apply {
-                    action = ACTION_START
-                    putExtras(payload.toBundle())
-                },
-            )
+            try {
+                ContextCompat.startForegroundService(
+                    context,
+                    Intent(context, AlarmPlaybackService::class.java).apply {
+                        action = ACTION_START
+                        putExtras(payload.toBundle())
+                    },
+                )
+            } catch (error: ForegroundServiceStartNotAllowedException) {
+                Log.w(TAG, "Alarm foreground service start blocked by system", error)
+            } catch (error: SecurityException) {
+                Log.w(TAG, "Alarm foreground service permission denied", error)
+            } catch (error: IllegalStateException) {
+                Log.w(TAG, "Alarm foreground service start failed", error)
+            }
         }
 
         fun stop(context: Context) {

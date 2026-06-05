@@ -71,10 +71,17 @@ class AppStateProvider extends ChangeNotifier {
       _notificationSubscription ??= _nativeBridgeService.notificationEvents
           .listen(_handleNotificationEvent);
 
-      await _nativeBridgeService.syncMonitoringConfig(
-        _settings,
-        userId: _boundUser?.uid,
-      );
+      if (_hasCompletedOnboarding) {
+        await _nativeBridgeService.syncMonitoringConfig(
+          _settings,
+          userId: _boundUser?.uid,
+        );
+      } else {
+        await _nativeBridgeService.syncMonitoringConfig(
+          _settings.copyWith(monitoringEnabled: false),
+          userId: _boundUser?.uid,
+        );
+      }
     } finally {
       _isInitializing = false;
       notifyListeners();

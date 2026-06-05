@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -15,12 +15,8 @@ class AlertActivity : AppCompatActivity() {
     private val formatter = SimpleDateFormat("MMM dd, h:mm a", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        // Enable edge-to-edge rendering (Android 5.0+)
-        // This prevents deprecated API calls for setStatusBarColor and setNavigationBarColor
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-        }
         unlockScreenForAlert()
         setContentView(R.layout.activity_alert)
         bindPayload(AlertPayload.fromIntent(intent))

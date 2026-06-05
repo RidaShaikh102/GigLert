@@ -1,11 +1,15 @@
 package com.giglert.app
 
+import android.app.ForegroundServiceStartNotAllowedException
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 
 /**
@@ -70,13 +74,40 @@ class MonitoringForegroundService : Service() {
             return START_NOT_STICKY
         }
 
-        startForeground(
-            MONITORING_NOTIFICATION_ID,
-            buildNotification(config),
-            android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC,
-        )
+        if (!promoteToForeground(config)) {
+            stopSelf()
+            return START_NOT_STICKY
+        }
 
         return START_STICKY
+    }
+
+    private fun promoteToForeground(config: MonitoringConfig): Boolean {
+        return try {
+            ServiceCompat.startForeground(
+                this,
+                MONITORING_NOTIFICATION_ID,
+                buildNotification(config),
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC,
+            )
+            true
+        } catch (error: SecurityException) {
+            Log.e(
+                TAG,
+                "Missing FOREGROUND_SERVICE_DATA_SYNC permission in installed APK",
+                error,
+            )
+            false
+        } catch (error: Exception) {
+            Log.e(TAG, "Failed to start monitoring foreground service", error)
+            false
+        }
+    }
+
+    override fun onTimeout(startId: Int, fgsType: Int) {
+        super.onTimeout(startId, fgsType)
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
     }
 
     private fun buildNotification(config: MonitoringConfig): android.app.Notification {
@@ -101,13 +132,22 @@ class MonitoringForegroundService : Service() {
     }
 
     companion object {
+        private const val TAG = "MonitoringForegroundService"
         private const val MONITORING_NOTIFICATION_ID = 4401
 
         fun start(context: Context) {
-            ContextCompat.startForegroundService(
-                context,
-                Intent(context, MonitoringForegroundService::class.java),
-            )
+            try {
+                ContextCompat.startForegroundService(
+                    context,
+                    Intent(context, MonitoringForegroundService::class.java),
+                )
+            } catch (error: ForegroundServiceStartNotAllowedException) {
+                Log.w(TAG, "Monitoring foreground service start blocked by system", error)
+            } catch (error: SecurityException) {
+                Log.w(TAG, "Monitoring foreground service permission denied", error)
+            } catch (error: IllegalStateException) {
+                Log.w(TAG, "Monitoring foreground service start failed", error)
+            }
         }
 
         fun stop(context: Context) {
