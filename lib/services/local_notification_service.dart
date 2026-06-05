@@ -15,7 +15,7 @@ class LocalNotificationService {
     const InitializationSettings initializationSettings =
         InitializationSettings(android: androidInitializationSettings);
 
-    await _plugin.initialize(settings: initializationSettings);
+    await _plugin.initialize(initializationSettings);
 
     final AndroidFlutterLocalNotificationsPlugin? androidPlugin = _plugin
         .resolvePlatformSpecificImplementation<
@@ -57,14 +57,12 @@ class LocalNotificationService {
 
   Future<void> showMonitoringStatus(AppSettings settings) async {
     await _plugin.show(
-      id: AppConstants.monitoringNotificationId,
-      title: settings.monitoringEnabled
-          ? 'Monitoring enabled'
-          : 'Monitoring paused',
-      body: settings.monitoringEnabled
+      AppConstants.monitoringNotificationId,
+      settings.monitoringEnabled ? 'Monitoring enabled' : 'Monitoring paused',
+      settings.monitoringEnabled
           ? 'GigLert will watch Fiverr during your active hours.'
           : 'Fiverr notification alarms are currently paused.',
-      notificationDetails: NotificationDetails(
+      NotificationDetails(
         android: AndroidNotificationDetails(
           'monitoring_status',
           'Monitoring status',
@@ -81,11 +79,10 @@ class LocalNotificationService {
 
   Future<void> showSetupReminder() async {
     await _plugin.show(
-      id: AppConstants.helperNotificationId,
-      title: 'Finish Android setup',
-      body:
-          'Grant notification access and battery exemptions for reliable Fiverr alerts.',
-      notificationDetails: const NotificationDetails(
+      AppConstants.helperNotificationId,
+      'Finish Android setup',
+      'Grant notification access and battery exemptions for reliable Fiverr alerts.',
+      const NotificationDetails(
         android: AndroidNotificationDetails(
           'setup_guides',
           'Setup guides',

@@ -4,8 +4,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -55,12 +55,28 @@ android:label="@string/app_name"
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <!-- MonitoringForegroundService: dataSync type
+             Purpose: Continuously monitors Fiverr account for new job opportunities and notifications
+             Justification: This service runs in the foreground to ensure reliable background monitoring
+             when the app is not actively in use. It syncs data from Fiverr servers at scheduled intervals
+             (configurable by user) to check for new job alerts. The foreground notification keeps users
+             informed of the monitoring status and allows quick access to new opportunities. Without
+             foreground service, the system would terminate the monitoring process during low memory
+             situations, preventing timely job notifications. -->
         <service
             android:name=".MonitoringForegroundService"
             android:enabled="true"
             android:exported="false"
-            android:stopWithTask="false"
-            android:foregroundServiceType="specialUse" />
+            android:foregroundServiceType="dataSync"
+            android:stopWithTask="false" />
+        <!-- AlarmPlaybackService: mediaPlayback type
+             Purpose: Plays audio alarms and notifications for new Fiverr job opportunities
+             Justification: This service requires foreground status to reliably play audio alarms
+             when new job opportunities are detected. The mediaPlayback type is appropriate because
+             the service directly manages audio playback through MediaPlayer, plays ringtones, and
+             controls vibration patterns to alert users. The foreground notification is essential to
+             ensure the audio alarm completes even if the device enters low power mode or the system
+             needs to free resources. This guarantees users receive critical job opportunity alerts. -->
         <service
             android:name=".AlarmPlaybackService"
             android:enabled="true"
@@ -74,7 +90,7 @@ android:label="@string/app_name"
         <receiver
             android:name=".DeviceBootReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />

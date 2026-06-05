@@ -16,6 +16,40 @@ import android.os.VibratorManager
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 
+/**
+ * AlarmPlaybackService - Foreground Service for Audio Alarm Notifications
+ *
+ * Android 14+ Compliance:
+ * - Foreground Service Type: mediaPlayback
+ * - Reason: This service directly manages audio playback through MediaPlayer,
+ *   plays system ringtones, and controls vibration patterns for time-sensitive
+ *   job opportunity alerts.
+ *
+ * Purpose:
+ * Plays audio alarms and notifications when new Fiverr job opportunities are detected.
+ * Ensures reliable alert delivery even when the app is backgrounded or the device is
+ * under memory pressure.
+ *
+ * Implementation:
+ * - Starts as foreground service via startForeground() with persistent notification
+ * - Acquires WakeLock to prevent device sleep during alert playback
+ * - Uses MediaPlayer for audio, Vibrator for haptic feedback
+ * - Provides user controls (stop/snooze) through notification actions
+ *
+ * Why Foreground Service is Required:
+ * 1. Audio alerts must complete even during low battery or memory pressure
+ * 2. WakeLock requires foreground service to function properly
+ * 3. System could otherwise terminate audio playback mid-alert
+ * 4. Users depend on reliable job notifications (time-sensitive income opportunity)
+ *
+ * Manifest Declaration:
+ * <service
+ *     android:name=".AlarmPlaybackService"
+ *     android:foregroundServiceType="mediaPlayback"
+ *     android:enabled="true"
+ *     android:exported="false"
+ *     android:stopWithTask="false" />
+ */
 class AlarmPlaybackService : Service() {
     private var mediaPlayer: MediaPlayer? = null
     private var wakeLock: PowerManager.WakeLock? = null
